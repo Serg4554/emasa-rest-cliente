@@ -27,8 +27,8 @@
                 Observaciones: <h:inputText value="#{controlBean.observaciones}"/><br/>
                 Posicionamiento GPS: <h:inputText id ="lat" a:placeholder="Latitud" value="#{controlBean.latitud}"/><h:inputText id="lon" a:placeholder="Longitud" value="#{controlBean.longitud}"/><br/>
                 <div id="image" />
-                <h:commandButton type="button"  value="obtener geolocalizacion" onclick="getLocation();" />
-                <h:commandButton value="Guardar" action="#{controlBean.doGuardar()}"/>
+                <h:commandButton type="button"  value="obtener geolocalizacion" onclick="getLocation();" class="btn btn-default" />
+                <h:commandButton value="Guardar" action="#{controlBean.doGuardar()}" class="btn btn-success"/>
             </h:form>
         </h:panelGroup>
     </h:body> 

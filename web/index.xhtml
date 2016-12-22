@@ -18,7 +18,12 @@
         <ui:include src="/includes/header.xhtml" />
         <h:panelGroup layout="block" id="content">
             <h:form>
-                Introducir Correo Electrónico: <h:inputText value="#{controlBean.emailUsuario}"/> <h:commandButton value="Enviar" action="#{controlBean.mostrarAvisos()}"/>
+                <h3>Acceso al sistema</h3>
+                <h:panelGroup layout="block" class="input-group" style="width: 500px">
+                    <span class="input-group-addon">Correo</span>
+                    <h:inputText value="#{controlBean.emailUsuario}" class="form-control" />
+                </h:panelGroup> <br/>
+                <h:commandButton value="Entrar" action="#{controlBean.mostrarAvisos()}" class="btn btn-success"/>
             </h:form>
         </h:panelGroup>
     </h:body>
