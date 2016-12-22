@@ -21,7 +21,7 @@
             <h2>Lista de avisos de #{controlBean.emailUsuario}</h2>
             <f:view>
                 <h:form>
-                    <h:commandButton action="#{controlBean.crearAviso()}" value="Crear Aviso"/><br/><br/>
+                    <h:commandButton action="#{controlBean.crearAviso()}" value="Crear Aviso" class="btn btn-success" /><br/><br/>
                     <h:dataTable value="#{controlBean.listaAvisosUsuario}" var="aviso"  border="2"  cellspacing="2">
                         <h:column>
                             <f:facet name="header">

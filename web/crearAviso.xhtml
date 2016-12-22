@@ -2,7 +2,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     <h:head>
@@ -23,12 +22,34 @@
         <h:panelGroup layout="block" id="content">
             <h:form id="form">
                 Fecha de creación: <h:inputText a:placeholder="dd" maxlength="2" value="#{controlBean.dia}"/><h:inputText a:placeholder="mm" maxlength="2" value="#{controlBean.mes}"/><h:inputText a:placeholder="aaaa" maxlength="4" value="#{controlBean.anyo}"/><br/>
-                Ubicación: <h:inputText value="#{controlBean.ubicacion}"/><br/>
-                Observaciones: <h:inputText value="#{controlBean.observaciones}"/><br/>
-                Posicionamiento GPS: <h:inputText id ="lat" a:placeholder="Latitud" value="#{controlBean.latitud}"/><h:inputText id="lon" a:placeholder="Longitud" value="#{controlBean.longitud}"/><br/>
-                <div id="image" />
-                <h:commandButton type="button"  value="obtener geolocalizacion" onclick="getLocation();" class="btn btn-default" />
+                <h:panelGroup layout="block" class="input-group" style="width: 500px">
+                    <span class="input-group-addon">Ubicación</span>
+                    <h:inputText value="#{controlBean.ubicacion}" class="form-control" />
+                </h:panelGroup> <br/>
+                
+                <h:panelGroup layout="block" class="input-group" style="width: 500px">
+                    <span class="input-group-addon">Observaciones</span>
+                    <h:inputText value="#{controlBean.observaciones}" class="form-control" />
+                </h:panelGroup> <br/>
+                
+                <br/>
+                <h:commandButton type="button"  value="Obtener localizacion" onclick="getLocation();" class="btn btn-default" /> <br/>
+                <br/>
+                
+                <h:panelGroup layout="block" class="input-group" style="width: 200px">
+                    <span class="input-group-addon">Latitud GPS</span>
+                    <h:inputText id ="lat" value="#{controlBean.latitud}" class="form-control" />
+                </h:panelGroup> <br/>
+                
+                <h:panelGroup layout="block" class="input-group" style="width: 200px">
+                    <span class="input-group-addon">Longitud GPS</span>
+                    <h:inputText id="lon" value="#{controlBean.longitud}" class="form-control" />
+                </h:panelGroup> <br/>
+                
+                <div id="image" /> <br/>
+                
                 <h:commandButton value="Guardar" action="#{controlBean.doGuardar()}" class="btn btn-success"/>
+                <h:commandButton style="margin-left: 10px" action="mostrarAvisos?faces-redirect=true" value="Volver" class="btn btn-default" />
             </h:form>
         </h:panelGroup>
     </h:body> 
