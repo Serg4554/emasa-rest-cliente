@@ -52,6 +52,8 @@ public class ControlBean implements Serializable {
     ClienteJerseyAviso clienteAvisos;
     ClienteJerseyOperacion clienteOperaciones;
     ClienteJerseyUsuario clienteUsuario;
+    String latitudGPS;
+    String longitudGPS;
 
     /**
      * Creates a new instance of ControlBean
@@ -65,6 +67,22 @@ public class ControlBean implements Serializable {
         clienteOperaciones = new ClienteJerseyOperacion();
         clienteUsuario = new ClienteJerseyUsuario();
         
+    }
+
+    public String getLatitudGPS() {
+        return latitudGPS;
+    }
+
+    public void setLatitudGPS(String latitudGPS) {
+        this.latitudGPS = latitudGPS;
+    }
+
+    public String getLongitudGPS() {
+        return longitudGPS;
+    }
+
+    public void setLongitudGPS(String longitudGPS) {
+        this.longitudGPS = longitudGPS;
     }
     public String getLatitud() {
         return latitud;
@@ -190,6 +208,14 @@ public class ControlBean implements Serializable {
     public String verAviso(Aviso aviso) {
         avisoSeleccionado = aviso;
         listaOperaciones = getListaOperacionesAviso();
+        if(avisoSeleccionado.getPosGPS() != null && !avisoSeleccionado.getPosGPS().isEmpty()) {
+            String[] posGPS = avisoSeleccionado.getPosGPS().split(";");
+            latitudGPS = posGPS[0];
+            longitudGPS = posGPS[1];
+        } else {
+            latitudGPS = null;
+            longitudGPS = null;
+        }
         return "detalleAviso";
     }
 
@@ -274,7 +300,7 @@ public class ControlBean implements Serializable {
         comprobarUsuario();
         clienteAvisos.create_XML(avisoSeleccionado);
         listaAvisosUsuario.add(avisoSeleccionado);
-        return "mostrarAvisos";
+        return this.mostrarAvisos();
     }  
     
 }
