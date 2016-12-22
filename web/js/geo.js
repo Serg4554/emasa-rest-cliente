@@ -10,7 +10,7 @@ function getLocation() {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(showPosition);
     } else { 
-        x.value = "Este navegador no soporta geolocalizacion.";
+        alert("Este navegador no soporta geolocalizacion");
     }
 }
 
