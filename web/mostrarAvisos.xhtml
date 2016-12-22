@@ -22,7 +22,9 @@
                         <f:facet name="header">
                             Fecha Creación
                         </f:facet>
-                        #{aviso.fechacreacion.day}/#{aviso.fechacreacion.month}/#{aviso.fechacreacion.year}
+                        <h:outputText value="#{aviso.fechacreacion}" >
+                            <f:convertDateTime pattern="dd-MM-yyyy" timeZone="CET" />
+                        </h:outputText>
                     </h:column>
                     <h:column>
                         <f:facet name="header">
@@ -58,13 +60,17 @@
                         <f:facet name="header">
                             Inicio Reparación
                         </f:facet>
-                        #{aviso.inicioReparacion.day}/#{aviso.inicioReparacion.month}/#{aviso.inicioReparacion.year}
+                        <h:outputText value="#{aviso.inicioReparacion}" >
+                            <f:convertDateTime pattern="dd-MM-yyyy" timeZone="CET" />
+                        </h:outputText>
                     </h:column>
                     <h:column>
                         <f:facet name="header">
                             Fin Reparación
                         </f:facet>
-                        #{aviso.finReparacion.day}/#{aviso.finReparacion.month}/#{aviso.finReparacion.year}
+                        <h:outputText value="#{aviso.finReparacion}" >
+                            <f:convertDateTime pattern="dd-MM-yyyy" timeZone="CET" />
+                        </h:outputText>
                     </h:column>
                     <h:column>
                         <f:facet name="header">
