@@ -12,25 +12,16 @@ import java.io.Serializable;
 import java.util.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
-import javax.xml.datatype.DatatypeConfigurationException;
-import javax.xml.datatype.DatatypeFactory;
-import javax.xml.ws.WebServiceRef;
 import pojo.Aviso;
 import pojo.Operacion;
 import pojo.Usuario;
 import rest.services.ClienteJerseyAviso;
 import rest.services.ClienteJerseyOperacion;
 import rest.services.ClienteJerseyUsuario;
-
-//import operacionws.Operacion;
-//import operacionws.OperacionWS_Service;
 
 
 /**
@@ -190,19 +181,22 @@ public class ControlBean implements Serializable {
     }
 
     public String mostrarAvisos() {
-        //obtenemos la lista de avisos del usuario
+        obtenerListaAvisos();
+        return "mostrarAvisos?faces-redirect=true";
+    }
+    
+    public void obtenerListaAvisos()
+    {//procedimiento para obtener la lista de avisos de un usuario
+        
         Response respuesta = clienteAvisos.findAvisosPorUsuario_XML(Response.class, emailUsuario);
         
         if(respuesta.getStatus() == 200){
             GenericType<List<Aviso>> genericAvisos = new GenericType<List<Aviso>>(){};
             listaAvisosUsuario = respuesta.readEntity(genericAvisos);
-            return "mostrarAvisos";
         }
         else{
-            return "mostrarAvisos";
+            error = "error al recuperar la lista de avisos";
         }
-        
-        
     }
 
     public String verAviso(Aviso aviso) {
@@ -216,7 +210,7 @@ public class ControlBean implements Serializable {
             latitudGPS = null;
             longitudGPS = null;
         }
-        return "detalleAviso";
+        return "detalleAviso?faces-redirect=true";
     }
 
     private List<Operacion> getListaOperacionesAviso() {
@@ -235,23 +229,23 @@ public class ControlBean implements Serializable {
     public void comprobarUsuario() {
         
         Response resCliente = clienteUsuario.find_XML(Response.class, emailUsuario);
-        if(resCliente.getStatus() == 200){
+        if(resCliente.getStatus() == 204){ //si es un nuevo usuario
+            usuarioActual = new Usuario();
+            usuarioActual.setEmail(emailUsuario);
+            usuarioActual.setOperador(false);
+            clienteUsuario.create_XML(usuarioActual);
+        }
+        else if (resCliente.getStatus() == 200)
+        {
             GenericType<Usuario> genUsuario = new GenericType<Usuario>(){};
             usuarioActual = resCliente.readEntity(genUsuario);
-            if (usuarioActual == null) {
-                usuarioActual = new Usuario();
-                usuarioActual.setEmail(emailUsuario);
-                usuarioActual.setOperador(false);
-                clienteUsuario.create_XML(usuarioActual);
-            }
-            avisoSeleccionado.setUsuarioemail(usuarioActual);
-    
         }
+        avisoSeleccionado.setUsuarioemail(usuarioActual);
     }
 
     public String crearAviso() {
         error="";
-        return "crearAviso";
+        return "crearAviso?faces-redirect=true";
     }
 
     public String doGuardar() {
@@ -262,7 +256,7 @@ public class ControlBean implements Serializable {
             fecha = dia + "-" + mes + "-" + anyo;
         }else{
             error="Fecha no válida";
-            return "crearAviso";
+            return "crearAviso?faces-redirect=true";
         }
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy");
         formatter.applyPattern("dd-MM-yyyy");
@@ -272,25 +266,25 @@ public class ControlBean implements Serializable {
                 avisoSeleccionado.setFechacreacion(date);
             } catch (ParseException ex) {
                 error = "Fecha no válida";
-                return "crearAviso";
+                return "crearAviso?faces-redirect=true";
             }
         }
         if(ubicacion==null || ubicacion.isEmpty()){
             error="La ubicación no puede ser vacía";
-            return "crearAviso";
+            return "crearAviso?faces-redirect=true";
         }else{
             avisoSeleccionado.setUbicacion(ubicacion);
         }
         if(observaciones==null || observaciones.isEmpty()){
             error="El campo de observaciones no puede estar vacío";
-            return "crearAviso";
+            return "crearAviso?faces-redirect=true";
         }else{
             avisoSeleccionado.setObservaciones(observaciones);
         }
         
         if(latitud==null || latitud.isEmpty() || longitud == null || longitud.isEmpty()){
             error="Los campos del posicionamiento GPS no pueden ser vacíos";
-            return "crearAviso";
+            return "crearAviso?faces-redirect=true";
         }else{
             double lat = Double.parseDouble(latitud);
             double longi = Double.parseDouble(longitud);
@@ -300,8 +294,21 @@ public class ControlBean implements Serializable {
         comprobarUsuario();
         clienteAvisos.create_XML(avisoSeleccionado);
         listaAvisosUsuario.add(avisoSeleccionado);
+        limpiarDatos();
         return this.mostrarAvisos();
     }  
+
+    private void limpiarDatos() {
+        avisoSeleccionado = null;
+        error="";
+        dia="";
+        mes="";
+        anyo="";
+        ubicacion="";
+        observaciones="";
+        latitud="";
+        longitud="";
+    }
     
 }
 

@@ -17,7 +17,7 @@ function getLocation() {
 function showPosition(position) {
     document.getElementById("form:lat").value = position.coords.latitude;
     document.getElementById("form:lon").value = position.coords.longitude;
-    imagen.src = "https://maps.googleapis.com/maps/api/streetview?size=600x300&location="+position.coords.latitude+","+position.coords.longitude+"&heading=151.78&pitch=-0.76&key=AIzaSyAgYEiQOMHSJh-oq5zPCsZYk2z6FagzSgA";
+    imagen.src = "https://maps.googleapis.com/maps/api/streetview?size=600x300&location="+position.coords.latitude+","+position.coords.longitude+"&heading=151.78&pitch=-0.76&key=AIzaSyCFCaC9jvdAQBxdaTxKSqBLZDMulv2ozq0";
     document.getElementById("image").appendChild(imagen);
     
 }
